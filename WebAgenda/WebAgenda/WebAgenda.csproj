@@ -115,6 +115,8 @@
     </Compile>
     <Compile Include="Models\BdMySQL.cs" />
     <Compile Include="Models\Logs.cs" />
+    <Compile Include="Models\Medico.cs" />
+    <Compile Include="Models\Paciente.cs" />
     <Compile Include="Models\Sistema.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,6 +134,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
