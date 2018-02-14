@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 
 namespace WebAgenda.Models
 {
@@ -41,6 +42,67 @@ namespace WebAgenda.Models
             dt = BdMySql.getDataTable(sSql);
 
             return dt;
+        }
+
+        public List<Medico> GetListaMedicos(string pWhere)
+        {
+            List<Medico> lista = new List<Medico>();
+
+            DataTable dt = GetDtMedicos(pWhere);
+
+            Medico usu = new Medico
+            {
+                Med_Id = 0,
+                Med_Nome = "Não é Médico",
+                Med_Email = "",
+                med_Telefones = "",
+                Med_Obs = "",
+            };
+
+
+            foreach (DataRow dR in dt.Rows)
+            {
+                usu = new Medico
+                {
+                    Med_Id = Convert.ToInt32(dR["Med_Id"]),
+                    Med_Nome = dR["Med_Nome"] == DBNull.Value ? "" : dR["Med_Nome"].ToString(),
+                    Med_Email = dR["Med_Email"].ToString(),
+                    med_Telefones = dR["med_Telefones"].ToString(),
+                    Med_Obs = dR["Usu_Login"].ToString()
+                };
+                lista.Add(usu);
+            }
+
+            return lista;
+        }
+
+        public List<SelectListItem> GetListaMedicosCombo(int pMed_Id)
+        {
+            List<SelectListItem> lista = new List<SelectListItem>();
+
+            DataTable dt = GetDtMedicos("");
+
+            SelectListItem lstItem = new SelectListItem()
+            {
+                Value = 0.ToString(),
+                Text = "Não é Médico",
+                Selected = 0 == pMed_Id
+            };
+
+            lista.Add(lstItem);
+
+            foreach (DataRow dR in dt.Rows)
+            {
+                lstItem = new SelectListItem()
+                {
+                    Value = dR["Med_Id"].ToString(),
+                    Text = dR["Med_Nome"].ToString(), 
+                    Selected = dR["Med_Id"].ToString() == pMed_Id.ToString()
+                };
+                lista.Add(lstItem);
+            }
+
+            return lista;
         }
 
         public void Gravar()

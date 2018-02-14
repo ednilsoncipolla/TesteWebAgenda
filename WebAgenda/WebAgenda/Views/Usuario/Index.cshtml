@@ -4,7 +4,9 @@
     ViewBag.Title = "Gestão de Usuários";
 }
 
-<p> </p>
+<p></p>
+<p></p>
+<p></p>
 <div class="panel panel-default">
     <div class="panel panel-heading">
         <p class="panel-title">@ViewBag.Title</p>
@@ -12,19 +14,24 @@
     <div class="panel panel-body">
         <table class="table">
             <tr>
-                <th>
+                <th width="80" valign="bottom">
                     @Html.DisplayNameFor(model => model.Usu_Id)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Med_Id)
-                </th>
-                <th>
+                <th width="320" valign="bottom">
                     @Html.DisplayNameFor(model => model.Usu_Nome)
                 </th>
-                <th>
+                <th width="150" valign="bottom">
                     @Html.DisplayNameFor(model => model.Usu_Login)
                 </th>
-                <th></th>
+                <th width="80" valign="bottom">
+                    @Html.DisplayNameFor(model => model.Med_Id)
+                </th>
+                <th width="300" valign="bottom">
+                    @Html.DisplayNameFor(model => model.Med_Nome)
+                </th>
+                <th width="124" valign="bottom">
+                    Gestão
+                </th>
             </tr>
 
             @foreach (var item in Model)
@@ -34,17 +41,20 @@
                         @Html.DisplayFor(modelItem => item.Usu_Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Med_Id)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Usu_Nome)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Usu_Login)
                     </td>
                     <td>
-                        @Html.ActionLink("Detalhes", "Detalhes", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Excluir", "Delete", new { /* id=item.PrimaryKey */ })
+                        @Html.DisplayFor(modelItem => item.Med_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Nome)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Usu_Id.ToString() }) |
+                        @Html.ActionLink("Excluir", "Excluir", new { id = item.Usu_Id.ToString() })
                     </td>
                 </tr>
             }
@@ -55,7 +65,3 @@
         @Html.ActionLink("Adicionar", "Incluir", new { @class = "btn btn-default" })
     </div>
 </div>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>

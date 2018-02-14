@@ -17,20 +17,43 @@ namespace WebAgenda.Controllers
         }
 
         // GET: Usuario/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Detalhes(string id)
         {
-            return View();
+            int iId = 0;
+            try
+            {
+                iId = Convert.ToInt32(id);
+            }
+            catch 
+            {
+            }
+
+            if (iId == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                Usuario usu = new Usuario(iId);
+                return View(usu);
+            }
+        }
+
+        public static List<SelectListItem> GetLstComboMedicos(int pMed_Id = 0)
+        {
+            Medico med = new Medico();
+            return med.GetListaMedicosCombo(pMed_Id);
         }
 
         // GET: Usuario/Create
-        public ActionResult Create()
+        public ActionResult Incluir()
         {
             return View();
         }
 
         // POST: Usuario/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Incluir(FormCollection collection)
         {
             try
             {
