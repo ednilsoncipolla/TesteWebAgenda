@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebAgenda.Models.Usuario>
+
+@{
+    ViewBag.Title = "Gestão de Usuários";
+}
+
+<p> </p>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <p class="panel-title">@ViewBag.Title</p>
+    </div>
+    <div class="panel panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usu_Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Med_Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usu_Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usu_Login)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usu_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usu_Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usu_Login)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalhes", "Detalhes", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Excluir", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="panel panel-footer">
+        @Html.ActionLink("Adicionar", "Incluir", new { @class = "btn btn-default" })
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>

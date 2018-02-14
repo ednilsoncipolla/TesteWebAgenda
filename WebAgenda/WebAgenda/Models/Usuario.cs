@@ -34,13 +34,34 @@ namespace WebAgenda.Models
                 $"  , Med_Id {Environment.NewLine} " +
                 $"  , Usu_Nome {Environment.NewLine} " +
                 $"  , Usu_Login {Environment.NewLine} " +
-                $"  ,Usu_Senha {Environment.NewLine} " +
+                $"  , Usu_Senha {Environment.NewLine} " +
                 $"from usuarios {Environment.NewLine} " +
                 (string.IsNullOrEmpty(pWhere) ? "" : $"where {pWhere} {Environment.NewLine} ");
 
             dt = BdMySql.getDataTable(sSql);
 
             return dt;
+        }
+
+        public List<Usuario> GetListaUsuarios(string pWhere)
+        {
+            List<Usuario> lista = new List<Usuario>();
+
+            DataTable dt = GetDtUsuarios(pWhere);
+            foreach (DataRow dR in dt.Rows)
+            {
+                Usuario usu = new Usuario
+                {
+                    Usu_Id = Convert.ToInt32(dR["Usu_Id"]),
+                    Med_Id = Convert.ToInt32(dR["Med_Id"]),
+                    Usu_Nome = dR["Usu_Nome"].ToString(),
+                    Usu_Login = dR["Usu_Login"].ToString()
+                };
+                lista.Add(usu);
+            }
+
+
+            return lista;
         }
 
         public void Gravar()
