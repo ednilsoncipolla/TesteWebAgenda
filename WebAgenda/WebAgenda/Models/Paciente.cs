@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 
 namespace WebAgenda.Models
 {
@@ -16,10 +18,21 @@ namespace WebAgenda.Models
         string pac_Telefones;
         string pac_Obs;
 
+        [Display(Name = "ID")]
         public int Pac_Id { get => pac_Id; set => pac_Id = value; }
+
+        [Display(Name = "Nome do Paciente")]
+        [Required(ErrorMessage = "Informe o nome do paciente")]
         public string Pac_Nome { get => pac_Nome; set => pac_Nome = value; }
+
+        [Display(Name = "e-Mail do Paciente")]
         public string Pac_Email { get => pac_Email; set => pac_Email = value; }
+
+        [Display(Name = "Telefones do Paciente")]
+        [Required(ErrorMessage = "Informe o(s) telefone(s) do paciente")]
         public string Pac_Telefones { get => pac_Telefones; set => pac_Telefones = value; }
+
+        [Display(Name = "Observações sobre o Paciente")]
         public string Pac_Obs { get => pac_Obs; set => pac_Obs = value; }
 
         #endregion
@@ -41,6 +54,48 @@ namespace WebAgenda.Models
             dt = BdMySql.getDataTable(sSql);
 
             return dt;
+        }
+
+        public List<Paciente> GetListaPacientes(string pWhere)
+        {
+            List<Paciente> lista = new List<Paciente>();
+
+            DataTable dt = GetDtPacientes(pWhere);
+
+            foreach (DataRow dR in dt.Rows)
+            {
+                Paciente pac = new Paciente
+                {
+                    Pac_Id = Convert.ToInt32(dR["Pac_Id"]),
+                    Pac_Nome = dR["Pac_Nome"].ToString(),
+                    Pac_Email = dR["Pac_Email"].ToString(),
+                    Pac_Telefones = dR["Pac_Telefones"].ToString(),
+                    Pac_Obs = dR["Pac_Obs"].ToString()
+                };
+                lista.Add(pac);
+            }
+
+            return lista;
+        }
+
+        public List<SelectListItem> GetListaMedicosCombo(int pMed_Id)
+        {
+            List<SelectListItem> lista = new List<SelectListItem>();
+
+            DataTable dt = GetDtPacientes("");
+
+            foreach (DataRow dR in dt.Rows)
+            {
+                SelectListItem lstItem = new SelectListItem()
+                {
+                    Value = dR["Pac_Id"].ToString(),
+                    Text = dR["Pac_Nome"].ToString(),
+                    Selected = dR["Pac_Id"].ToString() == pMed_Id.ToString()
+                };
+                lista.Add(lstItem);
+            }
+
+            return lista;
         }
 
         public void Gravar()

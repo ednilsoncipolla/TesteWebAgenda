@@ -1,0 +1,64 @@
+﻿@model IEnumerable<WebAgenda.Models.Medico>
+
+@{
+    ViewBag.Title = "Listagem dos médicos";
+}
+
+<p>&nbsp;</p>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <p class="panel-title">@ViewBag.Title</p>
+        @Html.ActionLink("Incluir", "Create", new { @class = "btn btn-default" })
+    </div>
+    <div class="panel panel-body">
+        <table class="table">
+            <tr>
+                <th width="80">
+                    @Html.DisplayNameFor(model => model.Med_Id)
+                </th>
+                <th width="250">
+                    @Html.DisplayNameFor(model => model.Med_Nome)
+                </th>
+                <th width="250">
+                    @Html.DisplayNameFor(model => model.Med_Email)
+                </th>
+                <th width="220">
+                    @Html.DisplayNameFor(model => model.Med_Telefones)
+                </th>
+                <th width="380">
+                    @Html.DisplayNameFor(model => model.Med_Obs)
+                </th>
+                <th width="100">Gestão</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Telefones)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Med_Obs)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Med_Id }) |
+                        @Html.ActionLink("Excluir", "Delete", new {  id=item.Med_Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="panel panel-footer">
+        @Html.ActionLink("Incluir", "Create", new { @class = "btn btn-default" })
+    </div>
+</div>

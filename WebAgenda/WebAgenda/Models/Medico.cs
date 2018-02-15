@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -17,13 +18,38 @@ namespace WebAgenda.Models
         string med_Telefones;
         string med_Obs;
 
+        [Display(Name = "ID")]
         public int Med_Id { get => med_Id; set => med_Id = value; }
+
+        [Display(Name = "Nome do Médico")]
+        [Required(ErrorMessage = "Informe o nome do médico")]
         public string Med_Nome { get => med_Nome; set => med_Nome = value; }
+
+        [Display(Name = "e-Mail do Médico")]
         public string Med_Email { get => med_Email; set => med_Email = value; }
+
+        [Display(Name = "Telefones do Médico")]
+        [Required(ErrorMessage = "Informe o(s) telefone(s) do médico")]
         public string Med_Telefones { get => med_Telefones; set => med_Telefones = value; }
+
+        [Display(Name = "Observações")]
         public string Med_Obs { get => med_Obs; set => med_Obs = value; }
 
         #endregion
+
+        #region Construtor
+        public Medico()
+        {
+
+        }
+
+        public Medico(int pId)
+        {
+            Med_Id = pId;
+            GetMedico();
+        }
+
+        #endregion 
 
         #region CRUD
         public DataTable GetDtMedicos(string pWhere)
@@ -37,7 +63,7 @@ namespace WebAgenda.Models
                 $"  , Med_Telefones {Environment.NewLine} " +
                 $"  , Med_Obs {Environment.NewLine} " +
                 $"from medicos {Environment.NewLine} " +
-                (string.IsNullOrEmpty(pWhere) ? "" : $"where {pWhere} {Environment.NewLine} ");
+                (string.IsNullOrEmpty(pWhere) ? "" : $"{pWhere} {Environment.NewLine} ");
 
             dt = BdMySql.getDataTable(sSql);
 
@@ -50,27 +76,17 @@ namespace WebAgenda.Models
 
             DataTable dt = GetDtMedicos(pWhere);
 
-            Medico usu = new Medico
-            {
-                Med_Id = 0,
-                Med_Nome = "Não é Médico",
-                Med_Email = "",
-                med_Telefones = "",
-                Med_Obs = "",
-            };
-
-
             foreach (DataRow dR in dt.Rows)
             {
-                usu = new Medico
+                Medico med = new Medico
                 {
                     Med_Id = Convert.ToInt32(dR["Med_Id"]),
                     Med_Nome = dR["Med_Nome"] == DBNull.Value ? "" : dR["Med_Nome"].ToString(),
                     Med_Email = dR["Med_Email"].ToString(),
                     med_Telefones = dR["med_Telefones"].ToString(),
-                    Med_Obs = dR["Usu_Login"].ToString()
+                    Med_Obs = dR["Med_Obs"].ToString()
                 };
-                lista.Add(usu);
+                lista.Add(med);
             }
 
             return lista;
@@ -188,7 +204,7 @@ namespace WebAgenda.Models
                 sLog.AppendLine($"Teledones do Médico => {Med_Telefones}");
                 sLog.AppendLine($"Observações para o Médico => { Med_Obs }");
 
-                sSql = $"Insert into Usuarios ( {Environment.NewLine} " +
+                sSql = $"Insert into medicos ( {Environment.NewLine} " +
                     $"    Med_Id {Environment.NewLine} " +
                     $"    , Med_Nome {Environment.NewLine} " +
                     $"    , Med_Email {Environment.NewLine} " +
@@ -207,7 +223,7 @@ namespace WebAgenda.Models
             }
         }
 
-        public void GetUsuario()
+        public void GetMedico()
         {
             if (Med_Id <= 0)
             {
@@ -241,7 +257,7 @@ namespace WebAgenda.Models
             }
             else
             {
-                GetUsuario();
+                GetMedico();
                 StringBuilder sLog = new StringBuilder();
 
                 sLog.AppendLine($"{Sistema.Usuario.Usu_Nome} Incluiu informações do Médico");
@@ -251,7 +267,7 @@ namespace WebAgenda.Models
                 sLog.AppendLine($"Obs. do Médico => {Med_Obs}");
 
 
-                string sSql = $"Delete from medico {Environment.NewLine} " +
+                string sSql = $"Delete from medicos {Environment.NewLine} " +
                     $"where Med_Id = {Med_Id} ";
 
                 int QtdeReg = BdMySql.executaComando(sSql);
