@@ -25,8 +25,7 @@ namespace WebAgenda.Controllers
                 iId = Convert.ToInt32(id);
             }
             catch 
-            {
-            }
+            { }
 
             if (iId == 0)
             {
@@ -39,25 +38,21 @@ namespace WebAgenda.Controllers
             }
         }
 
-        public static List<SelectListItem> GetLstComboMedicos(int pMed_Id = 0)
-        {
-            Medico med = new Medico();
-            return med.GetListaMedicosCombo(pMed_Id);
-        }
-
-        // GET: Usuario/Create
-        public ActionResult Incluir()
-        {
-            return View();
-        }
-
-        // POST: Usuario/Create
         [HttpPost]
-        public ActionResult Incluir(FormCollection collection)
+        public ActionResult Detalhes(FormCollection collection)
         {
             try
             {
                 // TODO: Add insert logic here
+                string[] Str = collection.AllKeys;
+                string str = collection.GetValue("Usu_Id").AttemptedValue.ToString();
+                Usuario usu = new Usuario();
+                usu.Usu_Id = Convert.ToInt32(collection.GetValue("Usu_Id").AttemptedValue);
+                usu.Med_Id = Convert.ToInt32(collection.GetValue("Médico").AttemptedValue);
+                usu.Usu_Nome = collection.GetValue("Usu_Nome").AttemptedValue.ToString();
+                usu.Usu_Login = collection.GetValue("Usu_Login").AttemptedValue.ToString();
+                usu.Usu_Senha = collection.GetValue("Usu_Senha").AttemptedValue.ToString();
+                usu.Gravar();
 
                 return RedirectToAction("Index");
             }
@@ -67,26 +62,10 @@ namespace WebAgenda.Controllers
             }
         }
 
-        // GET: Usuario/Edit/5
-        public ActionResult Edit(int id)
+        public static List<SelectListItem> GetLstComboMedicos(int pMed_Id = 0)
         {
-            return View();
-        }
-
-        // POST: Usuario/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            Medico med = new Medico();
+            return med.GetListaMedicosCombo(pMed_Id);
         }
 
         // GET: Usuario/Delete/5

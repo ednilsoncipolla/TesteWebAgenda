@@ -37,6 +37,7 @@ namespace WebAgenda.Models
 
         [Required(ErrorMessage = "Entre com a senha do Usuário")]
         [Display(Name = "Senha")]
+        [DataType(DataType.Password)]
         public string Usu_Senha { get => usu_Senha; set => usu_Senha = value; }
 
         #endregion
@@ -67,7 +68,7 @@ namespace WebAgenda.Models
                 $"  , us.Usu_Login {Environment.NewLine} " +
                 $"  , us.Usu_Senha {Environment.NewLine} " +
                 $"  , us.Med_Id {Environment.NewLine} " +
-                $"  , med.Med_Nome {Environment.NewLine} " +
+                $"  , IfNull(med.Med_Nome,\"Não é médico\") as Med_Nome {Environment.NewLine} " +
                 $"from usuarios us {Environment.NewLine} " +
                 $"left join medicos med on us.Med_Id = med.Med_Id {Environment.NewLine} " +
                 (string.IsNullOrEmpty(pWhere) ? "" : $"{pWhere} {Environment.NewLine} ");
@@ -118,7 +119,7 @@ namespace WebAgenda.Models
             {
                 if (!string.IsNullOrEmpty(Usu_Login))
                 {
-                    DataTable dt = GetDtUsuarios($"Where Usu_Login = {Usu_Login} and Usu_Id <> {Usu_Id} ");
+                    DataTable dt = GetDtUsuarios($"Where Usu_Login = \"{Usu_Login}\" and Usu_Id <> {Usu_Id} ");
 
                     if (dt.Rows.Count > 0)
                     {
@@ -262,6 +263,7 @@ namespace WebAgenda.Models
                     Med_Id = Convert.ToInt32(dt.Rows[0]["Med_Id"]);
                     Usu_Nome = dt.Rows[0]["Usu_Nome"].ToString();
                     Usu_Login = dt.Rows[0]["Usu_Login"].ToString();
+                    Usu_Senha = dt.Rows[0]["Usu_Senha"].ToString();
                 }
                 else
                 {
