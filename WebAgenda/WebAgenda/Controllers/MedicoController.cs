@@ -98,7 +98,8 @@ namespace WebAgenda.Controllers
                 {
                     Medico med = new Medico(iId);
                     med.Excluir();
-                    return View(med);
+                    return RedirectToAction("Index");
+                    //return View(med);
                 }
                 catch (Exception ex)
                 {

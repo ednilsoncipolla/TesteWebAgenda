@@ -21,14 +21,15 @@ namespace WebAgenda.Models
         [Display(Name = "ID")]
         public int Med_Id { get => med_Id; set => med_Id = value; }
 
-        [Display(Name = "Nome do Médico")]
+        [Display(Name = "Nome")]
         [Required(ErrorMessage = "Informe o nome do médico")]
         public string Med_Nome { get => med_Nome; set => med_Nome = value; }
 
-        [Display(Name = "e-Mail do Médico")]
+        [Display(Name = "e-Mail")]
+        [DataType(DataType.EmailAddress)]
         public string Med_Email { get => med_Email; set => med_Email = value; }
 
-        [Display(Name = "Telefones do Médico")]
+        [Display(Name = "Telefones")]
         [Required(ErrorMessage = "Informe o(s) telefone(s) do médico")]
         public string Med_Telefones { get => med_Telefones; set => med_Telefones = value; }
 

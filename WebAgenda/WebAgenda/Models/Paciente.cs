@@ -21,11 +21,12 @@ namespace WebAgenda.Models
         [Display(Name = "ID")]
         public int Pac_Id { get => pac_Id; set => pac_Id = value; }
 
-        [Display(Name = "Nome do Paciente")]
+        [Display(Name = "Nome do Paciente", Prompt = "Nome do Paciente")]
         [Required(ErrorMessage = "Informe o nome do paciente")]
         public string Pac_Nome { get => pac_Nome; set => pac_Nome = value; }
 
         [Display(Name = "e-Mail do Paciente")]
+        [DataType(DataType.EmailAddress)]
         public string Pac_Email { get => pac_Email; set => pac_Email = value; }
 
         [Display(Name = "Telefones do Paciente")]
